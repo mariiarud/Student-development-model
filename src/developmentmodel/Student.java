@@ -20,11 +20,11 @@ public class Student implements KnowledgeSource {
     }
 
     public void learn(float theoryPoints){
-        knowledgeLevel.theoryPoints +=  theoryPoints;
+        knowledgeLevel.theoryPoints +=  Math.ceil(theoryPoints);
     }
 
     public void practice(float practicePoints){
-        knowledgeLevel.practicePoints += practicePoints;
+        knowledgeLevel.practicePoints += Math.ceil(practicePoints);
     }
 
     @Override

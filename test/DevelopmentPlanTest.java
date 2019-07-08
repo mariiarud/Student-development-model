@@ -18,6 +18,7 @@ import java.util.List;
 
 public class DevelopmentPlanTest {
     Student student_1;
+    Student student_2;
     DevelopmentPlan developmentPlan;
     List<Activity> activities;
     TimePeriod developmentPlanPeriod;
@@ -36,6 +37,7 @@ public class DevelopmentPlanTest {
     @BeforeEach
     void setUp() {
         student_1 = new Student("Vasa", 0.5f, true, true, false);
+        student_2 = new Student("Anton", 0.6f, true, true, false);
         selfConditioning = new SelfConditioning(2, 2);
         meetup = new Meetup(10, 10);
         internship = new Internship(10, 12);
@@ -73,6 +75,23 @@ public class DevelopmentPlanTest {
     void performDevPlan_excludeHolidays(){
         List<Activity>activities = new ArrayList<>();
 
+        List<Schedule> schedules = new ArrayList<Schedule>();
+        schedules.add(new Periods(universityIsActivePeriods));
+        schedules.add(new OnMonths(universityHolidays).exclude());
+        schedules.add(new Weekend().exclude());
+        activities.add(new Activity(university, schedules));
+
+        developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 5, 1), LocalDate.of(2018, 9, 30));
+        developmentPlan = new DevelopmentPlan(activities);
+        developmentPlan.perform(student_1, developmentPlanPeriod);
+
+        Assert.assertEquals(student_1.knowledgeLevel.theoryPoints, 80);
+    }
+
+    @Test
+    void performDevPlan_lastThursday(){
+        List<Activity>activities = new ArrayList<>();
+
         developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 9, 1), LocalDate.of(2018, 10, 30));
 
         List<Schedule> schedules = new ArrayList<Schedule>();
@@ -86,5 +105,19 @@ public class DevelopmentPlanTest {
         Assert.assertEquals(student_1.knowledgeLevel.theoryPoints, 10);
     }
 
+    @Test
+    void performDevPlan_studentEducateOtherStudent(){
+        List<Activity>activities = new ArrayList<>();
 
+        developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 9, 1), LocalDate.of(2018, 9, 30));
+
+        List<Schedule> schedules = new ArrayList<Schedule>();
+        schedules.add(new Periods(developmentPlanPeriod));
+        activities.add(new Activity(student_2, schedules));
+
+        developmentPlan = new DevelopmentPlan(activities);
+        developmentPlan.perform(student_1, developmentPlanPeriod);
+
+        Assert.assertEquals(student_1.knowledgeLevel.theoryPoints, 30);
+    }
 }

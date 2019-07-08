@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-public class Holidays implements Schedule {
+public class OnMonths implements Schedule {
     private List<Month> holidaysMonths;
 
-    public Holidays(List<Month> holidaysMonths) {
+    public OnMonths(List<Month> holidaysMonths) {
         this.holidaysMonths = holidaysMonths;
     }
 

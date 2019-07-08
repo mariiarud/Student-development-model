@@ -13,7 +13,7 @@ public class DevelopmentPlan {
 
     public void perform(Student student, TimePeriod periodSchedule){
         LocalDate currentDay = periodSchedule.firstDay;
-        while (!currentDay.isEqual(periodSchedule.lastDay )){
+        while (!currentDay.isAfter(periodSchedule.lastDay)){
             performActivities(student, currentDay);
             currentDay = currentDay.plusDays(1);
         }

@@ -1,6 +1,7 @@
 package developmentmodel;
 
 import developmentmodel.knowledgesource.KnowledgeSource;
+import developmentmodel.schedule.CompositorSchedule;
 import developmentmodel.schedule.Schedule;
 
 import java.time.LocalDate;
@@ -8,11 +9,11 @@ import java.util.List;
 
 public class Activity {
     final KnowledgeSource knowledgeSource;
-    final List<Schedule> periods;
+    final List<Schedule> schedules;
 
-    public Activity(KnowledgeSource knowledgeSource, List<Schedule> period) {
+    public Activity(KnowledgeSource knowledgeSource, List<Schedule> schedule) {
         this.knowledgeSource = knowledgeSource;
-        this.periods = period;
+        this.schedules = schedule;
     }
 
     void tryToApply(Student student, LocalDate currentDay){
@@ -21,15 +22,10 @@ public class Activity {
     }
 
     private boolean isInPeriods(LocalDate currentDay) {
-        for(Schedule period: periods)
-            if(!period.isActive(currentDay))
-                return false;
-        return true;
+        Schedule schedule = schedules.get(0);
+        for(int i=1; i<schedules.size(); i++){
+            schedule = new CompositorSchedule(schedule, schedules.get(i));
+        }
+        return schedule.isActive(currentDay);
     }
-
-//    private boolean isStudyingInWeekendAvailable(LocalDate currentDay) {
-//        if(weekend.isActive(currentDay))
-//            return knowledgeSource.getIsWeekendsAvailable();
-//        return true;
-//    }
 }
