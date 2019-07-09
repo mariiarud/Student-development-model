@@ -5,7 +5,7 @@ import developmentmodel.TimePeriod;
 import java.time.LocalDate;
 
 public class Periods implements Schedule {
-    public final TimePeriod timePeriod;
+    private final TimePeriod timePeriod;
 
     public Periods(TimePeriod timePeriod) {
         this.timePeriod = timePeriod;

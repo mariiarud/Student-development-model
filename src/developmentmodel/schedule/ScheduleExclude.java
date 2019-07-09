@@ -3,7 +3,7 @@ package developmentmodel.schedule;
 import java.time.LocalDate;
 
 public class ScheduleExclude implements Schedule {
-    Schedule schedule;
+    private Schedule schedule;
 
     public ScheduleExclude(Schedule schedule) {
         this.schedule = schedule;

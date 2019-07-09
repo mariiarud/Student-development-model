@@ -38,8 +38,9 @@ public class DevelopmentPlanTest {
     void setUp() {
         student_1 = new Student("Vasa", 0.5f, true, true, false);
         student_2 = new Student("Anton", 0.6f, true, true, false);
+
         selfConditioning = new SelfConditioning(2, 2);
-        meetup = new Meetup(10, 10);
+        meetup = new Meetup(10, 5);
         internship = new Internship(10, 12);
         university = new University(8, 2);
         developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 12, 1), LocalDate.of(2019, 1, 1));
@@ -103,6 +104,41 @@ public class DevelopmentPlanTest {
         developmentPlan.perform(student_1, developmentPlanPeriod);
 
         Assert.assertEquals(student_1.knowledgeLevel.theoryPoints, 10);
+    }
+
+    @Test
+    void performDevPlan_meetupWithoutLaptop(){
+        List<Activity>activities = new ArrayList<>();
+
+        developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 9, 1), LocalDate.of(2018, 10, 30));
+
+        List<Schedule> schedules = new ArrayList<Schedule>();
+        schedules.add(new Periods(developmentPlanPeriod));
+        schedules.add(new LastThursdayOnMonth());
+        activities.add(new Activity(meetup, schedules));
+
+        developmentPlan = new DevelopmentPlan(activities);
+        developmentPlan.perform(student_1, developmentPlanPeriod);
+
+        Assert.assertEquals(student_1.knowledgeLevel.practicePoints, 0);
+    }
+
+    @Test
+    void performDevPlan_meetupWithLaptop(){
+        List<Activity>activities = new ArrayList<>();
+        student_1.hesLaptop = true;
+
+        developmentPlanPeriod = new TimePeriod(LocalDate.of(2018, 9, 1), LocalDate.of(2018, 10, 30));
+
+        List<Schedule> schedules = new ArrayList<Schedule>();
+        schedules.add(new Periods(developmentPlanPeriod));
+        schedules.add(new LastThursdayOnMonth());
+        activities.add(new Activity(meetup, schedules));
+
+        developmentPlan = new DevelopmentPlan(activities);
+        developmentPlan.perform(student_1, developmentPlanPeriod);
+
+        Assert.assertEquals(student_1.knowledgeLevel.practicePoints, 10);
     }
 
     @Test

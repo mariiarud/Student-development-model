@@ -3,8 +3,8 @@ package developmentmodel.knowledgesource;
 import developmentmodel.Student;
 
 public class Internship implements KnowledgeSource {
-    final int theoryPoints;
-    final int practicePoints;
+    private final int theoryPoints;
+    private final int practicePoints;
 
     public Internship(int theoryPoints, int practicePoints) {
         this.theoryPoints = theoryPoints;

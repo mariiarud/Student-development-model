@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class DevelopmentPlan {
-//    List<Student> students;
-    List<Activity> activities;
+    private List<Activity> activities;
 
     public DevelopmentPlan(List<Activity> activities){
         this.activities = activities;
@@ -24,9 +23,4 @@ public class DevelopmentPlan {
             activity.tryToApply(student, currentDay);
         }
     }
-
-//    private void applyToStudents(LocalDate currentDay, Activity activity) {
-//        for(Student student: students)
-//            activity.tryToApply(student, currentDay);
-//    }
 }
